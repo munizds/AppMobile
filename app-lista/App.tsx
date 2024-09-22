@@ -38,20 +38,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto"/>
-      <View style={styles.InputContainer}>
-      <TextInput
-      style={styles.input}
-      placeholder='Digite a tarefa'
-      placeholderTextColor="white"
-      keyboardType='default'
-      onChangeText={setTaskText}
-      value={taskText}
-      />
-      <TouchableOpacity style={styles.inputButton} onPress={handleTaskAdd}>
-        <Feather name='plus-square' size={24}color="white"/>
-      </TouchableOpacity>
-      </View>
+      <InputAddTask onPress={handleTaskAdd} onChangeText={setTaskText} value={taskText}/>
       <View style={{flexDirection: 'row', gap: 16}}>
         
       <CardNumber/>
@@ -83,12 +70,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#28385E',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: 16,
     paddingTop: 64,
     gap: 16,
   },
-  InputContainer:{
+  inputContainer:{
+    width: '100%',
     flexDirection:'row',
     borderRadius: 4,
     backgroundColor: '#252627',
