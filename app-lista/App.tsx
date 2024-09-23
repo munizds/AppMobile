@@ -31,6 +31,32 @@ export default function App() {
     setTaskText('');
   }
 
+  function handleTaskChangeStatus(taskToChange: {description: string; check: boolean}){
+    const updatedTasks = tasks.filter((task)=> task.description !== taskToChange.description);
+    const newTask ={
+      description: taskToChange.description,
+      check: !taskToChange.check,
+    }
+    updatedTasks.push(newTask);
+    setTasks(updatedTasks);
+  }
+
+
+  function handleTaskDelete (taskToDelete : {description: string; check: boolean}){
+    // Alert.alert ("Atenção!", `Deseja realmente remover a tarefa ${taskToDelete.description}?`,
+    //   [
+    //   {text: "Sim", onPress: ()=>{
+    //     const updateTasks = tasks.filter((task)=> task != taskToDelete)
+    //     setTasks(updateTasks)
+    //   }},
+    //   {text: "Cancelar", style: "cancel"}
+    //   ]
+    // )
+    const updateTasks = tasks.filter((task)=> task != taskToDelete)
+        setTasks(updateTasks)
+
+  }
+
   useEffect(() =>{
     let totalTasks = tasks.length
     setCountTask(totalTasks);
@@ -41,24 +67,24 @@ export default function App() {
       <InputAddTask onPress={handleTaskAdd} onChangeText={setTaskText} value={taskText}/>
       <View style={{flexDirection: 'row', gap: 16}}>
         
-      <CardNumber/>
-      <CardNumber/>
-      <CardNumber/>
+      <CardNumber title={"Cadastradas"} num={countTask} color={"#1E1E1E"}/>
+      <CardNumber title={"Em Aberto"} num={0} color={"#E88A1A"}/>
+      <CardNumber title={"Finalizadas"} num={0} color={"30E9577"}/>
         </View> 
         <View style={styles.tasks}>
-
-        <Text>{countTask}</Text>
         <FlatList
         data={tasks}
         keyExtractor={(item, index)=> index.toString()}
         renderItem={
           ({item})=> (
-            <Task/>
+            <Task 
+            title={item.description}
+            status={item.check}
+            onCheck={()=>handleTaskChangeStatus(item)}
+            onRemove={()=>handleTaskDelete(item)}
+            />
           )
         }
-        ListEmptyComponent={()=>(
-          <Text>Você não cadastrou tarefas!</Text>
-        )}
         />
     </View>
     </View>
